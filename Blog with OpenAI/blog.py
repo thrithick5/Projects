@@ -1,11 +1,19 @@
 import openai
 import os
+from dotenv import load_dotenv
 
-client = openai.OpenAI(api_key=os.getenv('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'))
+load_dotenv()
+
+# Expect the API key to be stored in the .env file as OPENAI_API_KEY
+api_key = os.getenv("OPENAI_API_KEY")
+if not api_key:
+    raise RuntimeError("OPENAI_API_KEY not found in environment. Add it to your .env file.")
+
+client = openai.OpenAI(api_key=api_key)
 
 def generate_blog(paragraph_topic):
     try:
-        response = client.chat_aompletions.create(
+        response = client.chat.completions.create(
             model='gpt-3.5-turbo',
             messages=[
                 {"role": "system", "content": "You are a helpful assistant."},
