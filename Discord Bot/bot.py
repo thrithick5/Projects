@@ -4,6 +4,10 @@ import discord
 import aiohttp
 import json
 import requests
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 def get_meme():
    response = requests.get('https://meme-api.com/gimme')
@@ -29,7 +33,8 @@ intents.message_content = True
 async def main():
     async with aiohttp.ClientSession() as session:
         client = MyClient(intents=intents)
-        await client.start('MTM1MTYwNjQyMzg0NjUyMjk1MA.GFQQA2.nqJU2z1IXJd5j7iV0ACQsM3kCRc_exYTGDu89w', reconnect=True)
+        token = os.getenv('DISCORD_TOKEN')
+        await client.start(token, reconnect=True)
 
 import asyncio
 asyncio.run(main())
